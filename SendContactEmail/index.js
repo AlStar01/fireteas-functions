@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
 
+const appName = GetEnvironmentVariable("APP_NAME");
+
 const gmailEmail = GetEnvironmentVariable("GMAIL_EMAIL");
 const gmailPassword = GetEnvironmentVariable("GMAIL_PASSWORD");
 const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
@@ -46,9 +48,9 @@ function sendWelcomeEmail(contact) {
         to: gmailEmail,
         replyTo: `${name} <${email}>`,
         subject: subject,
-        text: `Fireteas Contact Request - ${name} <${email}> - ${message}`,
+        text: `${appName} Contact Request - ${name} <${email}> - ${message}`,
         html: `
-            <div>Fireteas Contact Request</div>
+            <div>${appName} Contact Request</div>
 
             <div><strong>Name:</strong> ${name}</div>
             <div><strong>Email:</strong> ${email}</div>
