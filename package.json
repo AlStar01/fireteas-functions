@@ -8,6 +8,9 @@
     "javascript"
   ],
   "author": "Alex Staroselsky <alexstaroselsky@gmail.com>",
+  "scripts": {
+    "publish": "func azure functionapp publish"
+  },
   "dependencies": {
     "nodemailer": "^4.0.1"
   },
