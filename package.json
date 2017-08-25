@@ -1,0 +1,15 @@
+{
+  "name": "fireteas-functions",
+  "version": "1.0.0",
+  "description": "Fireteas Azure cloud functions",
+  "keywords": [
+    "azure",
+    "functions",
+    "javascript"
+  ],
+  "author": "Alex Staroselsky <alexstaroselsky@gmail.com>",
+  "dependencies": {
+    "nodemailer": "^4.0.1"
+  },
+  "private": true
+}
