@@ -5,20 +5,37 @@ const gmailPassword = GetEnvironmentVariable("GMAIL_PASSWORD");
 const mailTransport = nodemailer.createTransport(`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 module.exports = function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+    if (req.body && 
+        req.body.name && 
+        req.body.email && 
+        req.body.subject && 
+        req.body.message) {
+            
+        const contact = req.body;
 
-    if (req.query.name || (req.body && req.body.name)) {
-        context.res = {
-            // status: 200, /* Defaults to 200 */
-            body: "Hello " + (req.query.name || req.body.name)
-        };
+        sendWelcomeEmail(contact)
+            .then((sentMessageInfo) => {
+                context.res = {
+                    body: true
+                };
+
+                context.log(JSON.stringify(sentMessageInfo));
+                context.done();
+            })
+            .catch(() => {
+                context.res = {
+                    status: 404,
+                    body: "Not Found"
+                };
+            })
     } else {
         context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
+            status: 404,
+            body: "Not Found"
         };
+
+        context.done();
     }
-    context.done();
 };
 
 function sendWelcomeEmail(contact) {
@@ -29,17 +46,14 @@ function sendWelcomeEmail(contact) {
         to: gmailEmail,
         replyTo: `${name} <${email}>`,
         subject: subject,
-        text: `Contact Request - ${name} <${email}> - ${message}`,
+        text: `Fireteas Contact Request - ${name} <${email}> - ${message}`,
         html: `
-            Contact Request
+            <div>Fireteas Contact Request</div>
 
             <div><strong>Name:</strong> ${name}</div>
-            <br />
-            <div><strong>Name:</strong> ${email}</div>
-            <br />
-            <div><strong>Name:</strong> ${subject}</div>
-            <br />
-            <div><strong>Name:</strong> ${message}</div>
+            <div><strong>Email:</strong> ${email}</div>
+            <div><strong>Subject:</strong> ${subject}</div>
+            <div><strong>Message:</strong> ${message}</div>
 
             <br />
             <br />
