@@ -9,6 +9,7 @@
   ],
   "author": "Alex Staroselsky <alexstaroselsky@gmail.com>",
   "scripts": {
+    "start": "func host start --debug vscode",
     "publish": "func azure functionapp publish"
   },
   "dependencies": {
